@@ -60,11 +60,36 @@ button:hover {
   /* Темнее при наведении */
 }
 
+/* Стили для элемента nav */
 nav {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 20px;
+  display: flex; /* Для горизонтального выравнивания элементов */
+  justify-content: center; /* Центрирование элементов по горизонтали */
+  gap: 20px; /* Расстояние между элементами */
+  margin-bottom: 20px; /* Отступ снизу */
+  padding: 10px; /* Внутренний отступ */
+  background-color: #f2f2f2; /* Цвет фона */
+  border-radius: 10px; /* Скругление углов */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Тень для элемента */
 }
 
+/* Стили для ссылок внутри nav */
+nav a {
+  text-decoration: none; /* Убрать подчеркивание */
+  color: #007bff; /* Цвет текста */
+  padding: 5px 10px; /* Внутренний отступ */
+  border-radius: 5px; /* Скругление углов */
+  transition: background-color 0.3s ease; /* Плавный переход фона */
+}
+
+/* Стили для ссылок при наведении */
+nav a:hover {
+  background-color: #0056b3; /* Цвет фона при наведении */
+  color: white; /* Цвет текста при наведении */
+}
+
+/* Стили для активной ссылки (можно использовать класс .router-link-active или .router-link-exact-active) */
+.router-link-active, .router-link-exact-active {
+  background-color: #007bff; /* Цвет фона для активной ссылки */
+  color: white; /* Цвет текста для активной ссылки */
+}
 </style>

@@ -2,8 +2,7 @@
     <div class="saved-anime">
         <h2>Saved Anime</h2>
         <div v-if="savedAnime.length">
-            <AnimeItem v-for="anime in savedAnime" :key="anime.id" :anime="anime"
-                @remove-from-watchlist="removeFromWatchlist" />
+            <AnimeItem v-for="anime in savedAnime" :key="anime.id" :anime="anime" @update-list="refreshList" />
         </div>
         <div v-else>
             <p>No saved anime yet.</p>
@@ -23,9 +22,10 @@ onMounted(async () => {
     savedAnime.value = getSavedAnime();
 });
 
-const removeFromWatchlist = (anime: Anime) => {
-    console.log('Removing from watchlist:', anime.attributes.titles.en);
+const refreshList = async () => {
+  savedAnime.value = getSavedAnime();
 };
+
 </script>
   
 <style lang="scss"></style>

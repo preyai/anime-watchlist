@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref,defineEmits } from 'vue';
 import { Anime } from '../types';
 import { saveAnime, removeAnime, isAnimeSaved } from '../storage';
 
@@ -13,14 +13,20 @@ const imageUrl = ref(props.anime.attributes.posterImage.small);
 const videoId = ref(props.anime.attributes.youtubeVideoId);
 const episodeCount = ref(props.anime.attributes.episodeCount);
 const activeTab = ref('description'); // 'description', 'video', 'info'
-const isSaved = isAnimeSaved(props.anime.id)
+const isSaved = ref(isAnimeSaved(props.anime.id))
+const emit = defineEmits(['update-list']);
+
 
 const addToWatchlist = () => {
     saveAnime(props.anime)
+    isSaved.value = isAnimeSaved(props.anime.id)
+    emit('update-list');
 }
 
 const removeFromWatchlist = () => {
     removeAnime(props.anime.id)
+    isSaved.value = isAnimeSaved(props.anime.id)
+    emit('update-list');
 }
 
 const changeTab = (tabName: string) => {
