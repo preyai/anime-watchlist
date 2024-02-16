@@ -1,7 +1,12 @@
 <template>
   <div id="app">
     <h1>Anime Watchlist</h1>
-    <AnimeSearch />
+    <nav>
+      <router-link to="/">Search</router-link>
+      <router-link to="/saved">Saved Anime</router-link>
+    </nav>
+    <router-view></router-view>
+
   </div>
 </template>
 
@@ -17,12 +22,49 @@ export default defineComponent({
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+/* Общие стили */
+body {
+  background-color: #f0f0f0;
+  /* Светлый фон */
+  color: #333;
+  /* Темный текст для контраста */
 }
+
+/* Стили для #app */
+#app {
+  
+  margin: 20px auto;
+  background: #fff;
+  /* Белый фон для карточек */
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Добавляем небольшую тень для объемности */
+  border-radius: 10px;
+  /* Скругляем углы */
+}
+
+/* Стили для кнопок */
+button {
+  background-color: #007bff;
+  /* Яркий цвет кнопки */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+  /* Темнее при наведении */
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
 </style>

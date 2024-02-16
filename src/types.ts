@@ -9,7 +9,11 @@ export interface Anime {
             medium: string,
             large: string,
             original: string
-        }
+        },
+        youtubeVideoId:string,
+        startDate:string,
+        endDate:string,
+        episodeCount:number,
     };
     // synopsis: string;
     // Другие поля, которые вы хотите использовать
