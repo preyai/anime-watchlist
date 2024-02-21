@@ -1,40 +1,3 @@
-<script setup lang="ts">
-import { ref,defineEmits } from 'vue';
-import { Anime } from '../types';
-import { saveAnime, removeAnime, isAnimeSaved } from '../storage';
-
-const props = defineProps<{
-    anime: Anime
-}>()
-
-const title = ref(props.anime.attributes.titles.en || props.anime.attributes.titles.en_jp);
-const description = ref(props.anime.attributes.synopsis);
-const imageUrl = ref(props.anime.attributes.posterImage.small);
-const videoId = ref(props.anime.attributes.youtubeVideoId);
-const episodeCount = ref(props.anime.attributes.episodeCount);
-const activeTab = ref('description'); // 'description', 'video', 'info'
-const isSaved = ref(isAnimeSaved(props.anime.id))
-const emit = defineEmits(['update-list']);
-
-
-const addToWatchlist = () => {
-    saveAnime(props.anime)
-    isSaved.value = isAnimeSaved(props.anime.id)
-    emit('update-list');
-}
-
-const removeFromWatchlist = () => {
-    removeAnime(props.anime.id)
-    isSaved.value = isAnimeSaved(props.anime.id)
-    emit('update-list');
-}
-
-const changeTab = (tabName: string) => {
-    activeTab.value = tabName;
-}
-</script>
-
-
 <template>
     <div class="card">
         <img :src="imageUrl" :alt="title">
@@ -45,40 +8,65 @@ const changeTab = (tabName: string) => {
                 <button @click="changeTab('video')">Video</button>
                 <button @click="changeTab('info')">Info</button>
             </div>
-            <div v-if="activeTab === 'description'">
-                <p>{{ description }}</p>
-            </div>
-            <div v-if="activeTab === 'video'" class="video-container">
-                <iframe width="560" height="315" :src="`https://www.youtube.com/embed/${videoId}`" frameborder="0"
+            <p v-if="activeTab === 'description'">{{ description }}</p>
+            <iframe v-if="activeTab === 'video'" class="video-container"
+                    :src="youtubeEmbedUrl" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen></iframe>
-            </div>
-            <div v-if="activeTab === 'info'">
-                <p>{{ episodeCount }}</p>
-            </div>
+            <p v-if="activeTab === 'info'">{{ episodeCount }}</p>
             <button v-if="isSaved" @click="removeFromWatchlist">Remove from Watchlist</button>
             <button v-else @click="addToWatchlist">Add to Watchlist</button>
         </div>
     </div>
 </template>
 
-  
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { Anime } from '../types';
+import { saveAnime, removeAnime, isAnimeSaved } from '../storage';
+
+const props = defineProps<{ anime: Anime }>();
+const emit = defineEmits(['update-list']);
+
+// Использование computed для автоматического обновления значений
+const title = computed(() => props.anime.attributes.titles.en || props.anime.attributes.titles.en_jp);
+const description = computed(() => props.anime.attributes.synopsis);
+const imageUrl = computed(() => props.anime.attributes.posterImage.small);
+const videoId = computed(() => props.anime.attributes.youtubeVideoId);
+const episodeCount = computed(() => props.anime.attributes.episodeCount);
+
+const activeTab = ref('description');
+const isSaved = ref(isAnimeSaved(props.anime.id));
+
+const youtubeEmbedUrl = computed(() => `https://www.youtube.com/embed/${videoId.value}`);
+
+const addToWatchlist = () => {
+    saveAnime(props.anime);
+    isSaved.value = true;
+    emit('update-list');
+};
+
+const removeFromWatchlist = () => {
+    removeAnime(props.anime.id);
+    isSaved.value = false;
+    emit('update-list');
+};
+
+const changeTab = (tabName: string) => {
+    activeTab.value = tabName;
+};
+</script>
+
 <style lang="scss">
-/* Стили для карточки аниме */
 .card {
     display: flex;
     gap: 2rem;
     margin-bottom: 2rem;
     background: #fff;
-    /* Белый фон */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* Тень для объема */
     border-radius: 10px;
-    /* Скругляем углы */
     overflow: hidden;
-    /* Скрываем все за пределами границ */
     transition: transform 0.3s ease;
-    /* Плавное преобразование */
 }
 
 .tabs {
@@ -89,6 +77,10 @@ const changeTab = (tabName: string) => {
 
 .card:hover {
     transform: translateY(-5px);
-    /* Поднимаем карточку при наведении */
+}
+
+.video-container {
+    width: 560px;
+    height: 315px;
 }
 </style>

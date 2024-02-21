@@ -1,8 +1,9 @@
-// router/index.ts
+// Подключаем необходимые модули
 import { createRouter, createWebHistory } from 'vue-router';
 import AnimeSearch from '../components/AnimeSearch.vue';
 import SavedAnime from '../components/SavedAnime.vue';
 
+// Определяем маршруты
 const routes = [
   {
     path: '/',
@@ -16,6 +17,7 @@ const routes = [
   }
 ];
 
+// Создаем роутер
 const router = createRouter({
   history: createWebHistory(),
   routes,
