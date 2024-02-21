@@ -1,5 +1,9 @@
 {
-  "name": "vue-test",
+  "name": "anime-watchlist",
+  "author": {
+    "name": "preyai",
+    "email": "preyaizman@gmail.com"
+  },
   "private": true,
   "version": "0.0.0",
   "type": "module",
