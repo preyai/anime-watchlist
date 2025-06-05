@@ -34,9 +34,12 @@ const performSearch = async () => {
         searchResults.value = [];
         return;
     }
+    // Reset page number when starting a new search so subsequent
+    // "load more" requests begin from the first page of results.
+    currentPage.value = 0;
     loading.value = true;
     try {
-        searchResults.value = await searchAnime(searchTerm.value);
+        searchResults.value = await searchAnime(searchTerm.value, currentPage.value);
     } catch (error) {
         console.error('Error searching anime:', error);
     } finally {
